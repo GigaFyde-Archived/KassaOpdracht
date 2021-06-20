@@ -1,5 +1,6 @@
 ﻿using FancyCashRegister.Dialogs;
 using FancyCashRegister.Domain.Models;
+using FancyCashRegister.Services.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -68,6 +69,9 @@ namespace FancyCashRegister.Forms
         private void btnAfgerond_Click(object sender, EventArgs e)
         {
             _order.Betaald = true;
+            _order.AanmaakDatum = DateTime.Now;
+            var orderRepo = new OrderRepository();
+            orderRepo.AddOrder(_order);
             _klantForm.Reset();
             _mainForm.Reset();
             _mainForm.Show();
