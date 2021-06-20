@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Serilog;
+using Serilog.Core;
 
 namespace FancyCashRegister.Forms
 {
@@ -17,12 +19,18 @@ namespace FancyCashRegister.Forms
     {
         private readonly GebruikersRepository _gebruikersRepo;
         private readonly Config _config;
+        private readonly Logger _logger;
 
         public LoginForm()
         {
             InitializeComponent();
             _gebruikersRepo = new GebruikersRepository();
             _config = new ConfigRepository().GetAppConfig();
+
+            _logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("logfile", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
         }
 
         
@@ -63,8 +71,9 @@ namespace FancyCashRegister.Forms
 
                     if (ingevoerdePinCorrect)
                     {
-                        ConfigRepository.HuidigeGebruiker = geselecteerdeGebruiker;
 
+                        ConfigRepository.HuidigeGebruiker = geselecteerdeGebruiker;
+                        _logger.Information($"gebruiker {geselecteerdeGebruiker.Gebruikersnaam} is ingelogd");
                         new MainForm().Show(this);
                         txtPincode.Text = string.Empty;
                         Hide();

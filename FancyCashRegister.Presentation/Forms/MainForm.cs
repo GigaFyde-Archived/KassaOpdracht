@@ -62,6 +62,7 @@ namespace FancyCashRegister.Forms
 
             SetBounds(bounds.X, bounds.Y, bounds.Width, bounds.Height);
             //TopMost = true;
+            bool develModeActief = new ConfigRepository().GetValue<bool>("DevelMode");
             FormBorderStyle = FormBorderStyle.None;
 
             Reset();
