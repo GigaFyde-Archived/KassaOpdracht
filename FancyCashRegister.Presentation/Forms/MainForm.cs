@@ -353,5 +353,10 @@ namespace FancyCashRegister.Forms
         {
 
         }
+
+        private void dgBeschikbareProducten_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
